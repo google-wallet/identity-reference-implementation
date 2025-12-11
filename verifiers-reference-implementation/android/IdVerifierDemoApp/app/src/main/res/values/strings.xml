@@ -1,0 +1,48 @@
+<!-- Copyright 2025 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+<resources>
+    <string name="app_name">IdVerifierDemoApp</string>
+    <string name="request_successful">Request was successful. credential received from wallet.</string>
+    <string name="unexpected_credential_type">Unexpected type of credential received.</string>
+    <string name="user_cancelled_activity">User Cancelled the activity</string>
+    <string name="user_cancelled_request">User cancelled the credential request.</string>
+    <string name="retry_prompt">Something went wrong, but you can retry</string>
+    <string name="request_interrupted">Credential request interrupted. Please retry.</string>
+    <string name="no_credential_on_device">No credential was available on the device</string>
+    <string name="no_credential_available">No credential available on device.</string>
+    <string name="unexpected_error">Unexpected error during credential request: %s</string>
+    <string name="wallet_interaction_exception">Exception during wallet interaction: %s</string>
+    <string name="parse_server_response_error">Error parsing server response.</string>
+    <string name="request_to_server_failed">Request to server failed: %s</string>
+    <string name="parse_server_validation_error">Error parsing server validation response.</string>
+    <string name="validation_request_failed">Validation request failed: %s</string>
+    <string name="request_exception" formatted="false">Request Exception to %s: %s</string>
+    <string name="no_doc_type_selected">No document type selected.</string>
+    <string name="no_attributes_selected">No attributes selected.</string>
+    <string name="age_over_18_yes">Yes (Over 18)</string>
+    <string name="age_over_18_no">No (Not Over 18)</string>
+    <string name="age_over_21_yes">Yes (Over 21)</string>
+    <string name="age_over_21_no">No (Not Over 21)</string>
+    <string name="protocol_openid4vp">openid4vp</string>
+    <string name="protocol_openid4vp_v1_unsigned">openid4vp-v1-unsigned</string>
+    <string name="protocol_openid4vp_v1_signed">openid4vp-v1-signed</string>
+    <string name="server_request_url">server_url/request</string>
+    <string name="server_verify_url">server_url/verify</string>
+    <string name="doctype_mdl">org.iso.18013.5.1.mDL</string>
+    <string name="doctype_idpass">com.google.wallet.idcard.1</string>
+    <string name="protocol_title">Protocol</string>
+    <string name="protocol_openid4vp_draft_24">openid4VP draft 24</string>
+    <string name="protocol_openid4vp_v1_unsigned_label">openid4vp 1.0 unsigned</string>
+    <string name="protocol_openid4vp_v1_signed_label">openid4VP 1.0 signed</string>
+</resources>
