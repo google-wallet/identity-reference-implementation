@@ -1,26 +1,23 @@
 # Identity relying party Reference repository
 
 
-This is not an officially supported Google product. This project is not
+> This is not an officially supported Google product. This project is not
 eligible for the [Google Open Source Software Vulnerability Rewards
-Program](https://bughunters.google.com/open-source-security).
-
-This project is intended for demonstration purposes only. It is not
+Program](https://bughunters.google.com/open-source-security). This project is intended for demonstration purposes only. It is not
 intended for use in a production environment.
 
-This repository consists of Reference code for Identity relying parties to reference for their implementation for Google Wallet
-
-The repo consists of:
- * Android (client)
- * Python (server)
+This repository consists of Reference code for Identity relying parties to reference for their implementation for Google Wallet.
 
 ****
-## Android Code
+## Android Client Code
 
 The Android code can be broken down into 3 parts:
-* ServerRequestHandler - This is responsible for getting the credential request from the server and passing the credential response token back to the server.
-* WalletCredentialHandler - This is responsible for getting the credential from a wallet on the device using the credential request from ServerRequest Handler.
-* ListActivity - This file defined the [attributes](https://developers.google.com/wallet/identity/verify/supported-credential-attributes) that are required from the digital identity credential and triggers the process of requesting the credentials from wallet.
+* `ServerRequestHandler`
+   - This is responsible for getting the credential request from the server and passing the credential response token back to the server.
+* `WalletCredentialHandler`
+   - This is responsible for getting the credential from a wallet on the device using the credential request from ServerRequest Handler.
+* `ListActivity`
+   - This file defined the [attributes](https://developers.google.com/wallet/identity/verify/supported-credential-attributes) that are required from the digital identity credential and triggers the process of requesting the credentials from wallet.
 
 ***
 
@@ -28,12 +25,9 @@ The Android code can be broken down into 3 parts:
 
 This is a Python-based web server built with **Flask** that acts as a Relying Party (RP). Its primary function is to request and verify digital credentials from a user's wallet. It supports the `openid4vp` protocol for this interaction. The server generates a request, sends it to a wallet, receives an encrypted response, and then decrypts and verifies the credential data.
 
-The server provides a simple web interface to initiate the process and view the results.
+The server provides a simple web interface to initiate the process and view the results and includes components for OpenID4VP.
 
-The server code has components for: 
-* openid4VP
-
-##### NOTE: Server code builds a state array (list) that contains JWE and HPKE keys, This is only for illustration purposes, for Production you'll generate and store they keys on your database and only pass the public keys and nonce where needed in the request. State Array is not required.
+> NOTE: Server code builds a state array (list) that contains JWE and HPKE keys. This is for illustration purposes only. For Production, use appropriate key management solutions to generate and store the keys, and only pass the public keys with nonce where needed in the request. State Array is not required.
 
 ### Relying Party (RP) Server for Credential Verification
 
@@ -104,13 +98,13 @@ Before running the server, you need to configure a few important variables in th
 * **`SPECS_URL`**: If you are using an external service for Zero-Knowledge Proof specifications, update this URL.
     ```python
     # in main.py
-    SPECS_URL = "[https://your-zk-specs-service.com/specs](https://your-zk-specs-service.com/specs)"
+    SPECS_URL = "https://your-zk-specs-service.com/specs"
     ```
 
 * **`ZK_VERIFIER_URL`**: If you are using an external Zero-Knowledge Proof verifier service, update this URL.
     ```python
     # in main.py
-    ZK_VERIFIER_URL = "[https://your-zk-verifier-service.com/zkverify](https://your-zk-verifier-service.com/zkverify)"
+    ZK_VERIFIER_URL = "https://your-zk-verifier-service.com/zkverify"
     ```
 ***
 
