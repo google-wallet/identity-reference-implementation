@@ -1,8 +1,8 @@
 # Google Wallet Identity Reference Implementations
 
-This repository serves as a central hub for reference implementations of the **Google Wallet Identity** ecosystem. It provides end-to-end code examples for different identity partners—including **Issuers** and **Verifiers (Relying Parties)**—to help developers integrate digital credentials using standard protocols.
+This repository serves as a central hub for reference implementations of the **Google Wallet Identity** ecosystem. It provides end-to-end code examples for different identity partners - including **Issuers** and **Verifiers (Relying Parties)** - to help developers integrate digital credentials using standard protocols.
 
-> **Disclaimer**: This is Not an officially supported Google product. This project is intended for **demonstration purposes only** and is not intended for use in a production environment. This project is Not eligible for the [Google Open Source Software Vulnerability Rewards Program](https://bughunters.google.com/open-source-security).
+> **Disclaimer**: This is Not an officially supported Google product. This project is intended for **demonstration purposes only** and is not intended for use in a production environment. This project is **not** eligible for the [Google Open Source Software Vulnerability Rewards Program](https://bughunters.google.com/open-source-security).
 
 ---
 
