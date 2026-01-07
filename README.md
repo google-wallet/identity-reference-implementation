@@ -43,7 +43,7 @@ To get started with an implementation, navigate to the specific partner folder a
 
 1.  **Clone the repository**:
     ```bash
-    git clone [https://github.com/](https://github.com/)<your-org>/identity-reference-implementation.git
+    git clone https://github.com/google-wallet/identity-reference-implementation.git
     cd identity-reference-implementation
     ```
 
