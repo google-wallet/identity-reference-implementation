@@ -32,7 +32,7 @@ Each directory below contains a standalone project with its own specific setup i
 The Verifier implementation demonstrates how a service provider can request digital identity attributes from a user's Google Wallet.
 
 * **Android (Client):** Implements `WalletCredentialHandler` and `ServerRequestHandler` to bridge the gap between your app and the system wallet.
-* **Python (Server):** A Flask-based server that handles the `openid4vp` protocol, manages encryption keys (JWE/HPKE), and verifies credential signatures.
+* **Python (Server):** A Flask-based server that handles the `openid4vp` protocol and verifies credential signatures.
 * **Zero-Knowledge Proofs (ZKP):** Includes endpoints to demonstrate how to verify proofs without sharing raw PII.
 
 ---
