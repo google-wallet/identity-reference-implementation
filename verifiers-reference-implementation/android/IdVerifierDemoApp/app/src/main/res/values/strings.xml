@@ -41,6 +41,8 @@ limitations under the License. -->
     <string name="server_verify_url">server_url/verify</string>
     <string name="doctype_mdl">org.iso.18013.5.1.mDL</string>
     <string name="doctype_idpass">com.google.wallet.idcard.1</string>
+    <string name="doctype_av">eu.europa.ec.av.1</string>
+    <string name="doctype_photoid">org.iso.23220.photoID.1</string>
     <string name="protocol_title">Protocol</string>
     <string name="protocol_openid4vp_draft_24">openid4VP draft 24</string>
     <string name="protocol_openid4vp_v1_unsigned_label">openid4vp 1.0 unsigned</string>

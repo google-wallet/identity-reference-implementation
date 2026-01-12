@@ -28,6 +28,8 @@ class RequestActivity : AppCompatActivity() {
 
     private lateinit var mdlCheckbox: CheckBox
     private lateinit var idpassCheckbox: CheckBox
+    private lateinit var avCheckbox: CheckBox
+    private lateinit var photoIdCheckbox: CheckBox
     private lateinit var attributesContainer: LinearLayout
     private lateinit var zkCheckbox: CheckBox
     private lateinit var verifyButton: Button
@@ -39,6 +41,8 @@ class RequestActivity : AppCompatActivity() {
 
         mdlCheckbox = findViewById(R.id.mdl_checkbox)
         idpassCheckbox = findViewById(R.id.idpass_checkbox)
+        avCheckbox = findViewById(R.id.av_checkbox)
+        photoIdCheckbox = findViewById(R.id.photoid_checkbox)
         attributesContainer = findViewById(R.id.attributes_container)
         zkCheckbox = findViewById(R.id.zk_checkbox)
         verifyButton = findViewById(R.id.verify_button)
@@ -46,6 +50,8 @@ class RequestActivity : AppCompatActivity() {
 
         mdlCheckbox.setOnCheckedChangeListener { _, _ -> updateAttributes() }
         idpassCheckbox.setOnCheckedChangeListener { _, _ -> updateAttributes() }
+        avCheckbox.setOnCheckedChangeListener { _, _ -> updateAttributes() }
+        photoIdCheckbox.setOnCheckedChangeListener { _, _ -> updateAttributes() }
 
         verifyButton.setOnClickListener {
             val selectedDoctypes = getSelectedDoctypes()
@@ -93,6 +99,24 @@ class RequestActivity : AppCompatActivity() {
                 }
             }
         }
+        if (avCheckbox.isChecked) {
+            AttributeDataSource.avAttributes.values.forEach { attribute ->
+                attribute.id?.let { id ->
+                    if (!combinedAttributes.containsKey(id)) {
+                        combinedAttributes[id] = attribute
+                    }
+                }
+            }
+        }
+        if (photoIdCheckbox.isChecked) {
+            AttributeDataSource.photoIdAttributes.values.forEach { attribute ->
+                attribute.id?.let { id ->
+                    if (!combinedAttributes.containsKey(id)) {
+                        combinedAttributes[id] = attribute
+                    }
+                }
+            }
+        }
 
         val inflater = LayoutInflater.from(this)
         val sortedAttributes = combinedAttributes.values.sortedBy { it.name }
@@ -118,6 +142,12 @@ class RequestActivity : AppCompatActivity() {
         }
         if (idpassCheckbox.isChecked) {
             doctypes.add(getString(R.string.doctype_idpass))
+        }
+        if (avCheckbox.isChecked) {
+            doctypes.add(getString(R.string.doctype_av))
+        }
+        if (photoIdCheckbox.isChecked) {
+            doctypes.add(getString(R.string.doctype_photoid))
         }
         return doctypes
     }

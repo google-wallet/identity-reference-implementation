@@ -113,6 +113,26 @@ limitations under the License.
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/mdl_checkbox" />
 
+            <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/av_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="EU AV (Age Verification) - eu.europa.ec.av.1"
+                    android:textColor="?attr/colorOnSurface"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/idpass_checkbox" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/photoid_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Photo ID - org.iso.23220.1"
+                    android:textColor="?attr/colorOnSurface"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/av_checkbox" />
+
             <TextView
                 android:id="@+id/attributes_title"
                 style="?attr/textAppearanceTitleMedium"

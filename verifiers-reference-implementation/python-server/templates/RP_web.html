@@ -37,489 +37,546 @@ limitations under the License. -->
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <div class="container mx-auto max-w-4xl p-4 sm:p-6 lg:p-8">
-        <header class="mb-8">
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">Wallet Credential Verifier</h1>
-            <p class="mt-2 text-gray-600">This tool requests and verifies credentials from a digital wallet using a live backend server.</p>
-        </header>
+<div class="container mx-auto max-w-4xl p-4 sm:p-6 lg:p-8">
+    <header class="mb-8">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">Wallet Credential Verifier</h1>
+        <p class="mt-2 text-gray-600">This tool requests and verifies credentials from a digital wallet using a live backend server.</p>
+    </header>
 
-        <main class="space-y-8">
-            <!-- Step 1: User selects attributes and options for the credential request. -->
-            <div id="step1" class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                <h2 class="text-2xl font-semibold mb-1">Step 1: Create Request</h2>
-                <p class="text-gray-500 mb-4">Select the attributes and options for your credential request.</p>
+    <main class="space-y-8">
+        <!-- Step 1: User selects attributes and options for the credential request. -->
+        <div id="step1" class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <h2 class="text-2xl font-semibold mb-1">Step 1: Create Request</h2>
+            <p class="text-gray-500 mb-4">Select the attributes and options for your credential request.</p>
 
-                <div class="mb-6">
-                    <h3 class="text-xl font-medium mb-3 text-gray-700">Protocol</h3>
-                    <select id="protocol-select" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                        <option value="openid4vp">openID draft 24</option>
-                        <option value="openid4vp-v1-unsigned" selected>openID v1 unsigned</option>
-                        <option value="openid4vp-v1-signed">openID v1 signed</option>
-                    </select>
-                </div>
-                <!-- ID Type Selection (e.g., mDL, Google Wallet ID) -->
-                <div class="mb-6">
-                    <h3 class="text-xl font-medium mb-3 text-gray-700">ID Type</h3>
-                    <div class="space-y-3" id="id-type-container">
-                        <label class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
-                            <input type="checkbox" name="idType" value="org.iso.18013.5.1.mDL" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                            <span class="ml-3 text-lg text-gray-700">mDL (Mobile Driving License)</span>
-                        </label>
-                        <label class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
-                            <input type="checkbox" name="idType" value="com.google.wallet.idcard.1" checked class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                            <span class="ml-3 text-lg text-gray-700">ID pass (Google Wallet ID Card)</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Attribute Selection (Dynamically populated by JavaScript) -->
-                <div class="mb-6">
-                    <h3 class="text-xl font-medium mb-3 text-gray-700">Attributes</h3>
-                    <div class="space-y-3" id="attributes-container">
-                        <!-- Checkboxes are dynamically inserted here -->
-                    </div>
-                </div>
-
-                <!-- Option to request a Zero-Knowledge Proof -->
-                <div class="mb-6">
-                    <h3 class="text-xl font-medium mb-3 text-gray-700">Zero-knowledge Proof</h3>
+            <div class="mb-6">
+                <h3 class="text-xl font-medium mb-3 text-gray-700">Protocol</h3>
+                <select id="protocol-select"
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                    <option value="openid4vp-v1-unsigned" selected>openID v1 unsigned</option>
+                    <option value="openid4vp-v1-signed">openID v1 signed</option>
+                </select>
+            </div>
+            <!-- ID Type Selection (e.g., mDL, Google Wallet ID) -->
+            <div class="mb-6">
+                <h3 class="text-xl font-medium mb-3 text-gray-700">ID Type</h3>
+                <div class="space-y-3" id="id-type-container">
                     <label class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
-                        <input type="checkbox" id="enable-zk-request" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                        <span class="ml-3 text-lg text-gray-700">Enable ZK request</span>
+                        <input type="checkbox" name="idType" value="org.iso.18013.5.1.mDL" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <span class="ml-3 text-lg text-gray-700">mDL (Mobile Driving License)</span>
+                    </label>
+                    <label class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                        <input type="checkbox" name="idType" value="com.google.wallet.idcard.1" checked class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <span class="ml-3 text-lg text-gray-700">ID pass (Google Wallet ID Card)</span>
+                    </label>
+                    <label class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                        <input type="checkbox" name="idType" value="eu.europa.ec.av.1"
+                               class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <span class="ml-3 text-lg text-gray-700">EU AV (Age Verification) - eu.europa.ec.av.1</span>
+                    </label>
+                    <label class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                        <input type="checkbox" name="idType" value="org.iso.23220.photoID.1"
+                               class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <span class="ml-3 text-lg text-gray-700">Photo ID - org.iso.23220.1</span>
                     </label>
                 </div>
-
-                <button id="request-btn" class="w-full sm:w-auto bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">
-                    Request from Wallet
-                </button>
             </div>
 
-            <!-- Status Messages display loading, success, or error states. -->
-            <div id="status-message" class="hidden p-4 rounded-lg"></div>
-
-            <!-- Step 2: Displays the JSON request payload sent to the wallet. -->
-            <div id="request-display" class="hidden bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                <h2 class="text-2xl font-semibold mb-4">Wallet Request Payload</h2>
-                <p class="text-gray-500 mb-4">This is the payload that is sent to the user's wallet. The verification process will start automatically after the wallet responds.</p>
-                <div class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto">
-                    <pre><code id="request-output"></code></pre>
+            <!-- Attribute Selection (Dynamically populated by JavaScript) -->
+            <div class="mb-6">
+                <h3 class="text-xl font-medium mb-3 text-gray-700">Attributes</h3>
+                <div class="space-y-3" id="attributes-container">
+                    <!-- Checkboxes are dynamically inserted here -->
                 </div>
             </div>
 
-            <!-- Step 3: Fallback for manual entry if automatic verification fails. -->
-            <div id="verify-section" class="hidden bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                <h2 class="text-2xl font-semibold mb-4">Manual Verification (Fallback)</h2>
-                <p class="text-gray-500 mb-4">If automatic verification fails, paste the response data from the wallet here.</p>
-                <textarea id="wallet-response-input" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="Paste Base64 response from wallet..."></textarea>
-                <button id="verify-btn" class="mt-4 w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-transform transform hover:scale-105">
-                    Verify Response
-                </button>
+            <!-- Option to request a Zero-Knowledge Proof -->
+            <div class="mb-6">
+                <h3 class="text-xl font-medium mb-3 text-gray-700">Zero-knowledge Proof</h3>
+                <label class="flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                    <input type="checkbox" id="enable-zk-request" class="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <span class="ml-3 text-lg text-gray-700">Enable ZK request</span>
+                </label>
             </div>
 
-            <!-- Step 4: Displays the final verification result from the backend. -->
-            <div id="result-display" class="hidden bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                <h2 class="text-2xl font-semibold mb-4">Verification Result</h2>
-                <div class="bg-gray-100 p-4 rounded-lg">
-                    <pre><code id="result-output"></code></pre>
-                </div>
+            <button id="request-btn" class="w-full sm:w-auto bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">
+                Request from Wallet
+            </button>
+        </div>
+
+        <!-- Status Messages display loading, success, or error states. -->
+        <div id="status-message" class="hidden p-4 rounded-lg"></div>
+
+        <!-- Step 2: Displays the JSON request payload sent to the wallet. -->
+        <div id="request-display" class="hidden bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <h2 class="text-2xl font-semibold mb-4">Wallet Request Payload</h2>
+            <p class="text-gray-500 mb-4">This is the payload that is sent to the user's wallet. The verification process will start automatically after the wallet responds.</p>
+            <div class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto">
+                <pre><code id="request-output"></code></pre>
             </div>
-        </main>
-    </div>
+        </div>
 
-    <script>
-        // --- DOM Elements ---
-        const requestBtn = document.getElementById('request-btn');
-        const verifyBtn = document.getElementById('verify-btn');
-        const idTypeCheckboxes = document.querySelectorAll('input[name="idType"]');
-        const enableZkRequestCheckbox = document.getElementById('enable-zk-request');
-        const attributesContainer = document.getElementById('attributes-container');
-        const requestDisplay = document.getElementById('request-display');
-        const requestOutput = document.getElementById('request-output');
-        const verifySection = document.getElementById('verify-section');
-        const walletResponseInput = document.getElementById('wallet-response-input');
-        const resultDisplay = document.getElementById('result-display');
-        const resultOutput = document.getElementById('result-output');
-        const statusMessage = document.getElementById('status-message');
+        <!-- Step 3: Fallback for manual entry if automatic verification fails. -->
+        <div id="verify-section" class="hidden bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <h2 class="text-2xl font-semibold mb-4">Manual Verification (Fallback)</h2>
+            <p class="text-gray-500 mb-4">If automatic verification fails, paste the response data from the wallet here.</p>
+            <textarea id="wallet-response-input" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="Paste Base64 response from wallet..."></textarea>
+            <button id="verify-btn" class="mt-4 w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-transform transform hover:scale-105">
+                Verify Response
+            </button>
+        </div>
 
-        // --- State Management ---
-        let stateForVerification = null; // Stores keys and nonce from the backend for a session.
-        
-        // IMPORTANT: Update this URL to point to your running backend server.
-        // For local development with the Python script, this is the default.
-        const serverUrl = 'http://127.0.0.1:5001';
+        <!-- Step 4: Displays the final verification result from the backend. -->
+        <div id="result-display" class="hidden bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <h2 class="text-2xl font-semibold mb-4">Verification Result</h2>
+            <div class="bg-gray-100 p-4 rounded-lg">
+                <pre><code id="result-output"></code></pre>
+            </div>
+        </div>
+    </main>
+</div>
 
-        // --- Attribute Definitions ---
-        // These objects define the available attributes for different credential types.
-        // You can customize these to match the credentials you want to verify.
-        const mdlAttributes = {
-            'family_name': { name: 'Family name', namespace: 'org.iso.18013.5.1' },
-            'given_name': { name: 'Given names', namespace: 'org.iso.18013.5.1' },
-            'birth_date': { name: 'Date of birth', namespace: 'org.iso.18013.5.1' },
-            'issue_date': { name: 'Date of issue', namespace: 'org.iso.18013.5.1' },
-            'expiry_date': { name: 'Date of expiry', namespace: 'org.iso.18013.5.1' },
-            'issuing_country': { name: 'Issuing country', namespace: 'org.iso.18013.5.1' },
-            'issuing_authority': { name: 'Issuing authority', namespace: 'org.iso.18013.5.1' },
-            'document_number': { name: 'Licence number', namespace: 'org.iso.18013.5.1' },
-            'portrait': { name: 'Portrait', namespace: 'org.iso.18013.5.1' },
-            'administrative_number': { name: 'Administrative number', namespace: 'org.iso.18013.5.1' },
-            'sex': { name: 'Sex', namespace: 'org.iso.18013.5.1' },
-            'height': { name: 'Height (cm)', namespace: 'org.iso.18013.5.1' },
-            'weight': { name: 'Weight (kg)', namespace: 'org.iso.18013.5.1' },
-            'eye_colour': { name: 'Eye colour', namespace: 'org.iso.18013.5.1' },
-            'hair_colour': { name: 'Hair colour', namespace: 'org.iso.18013.5.1' },
-            'birth_place': { name: 'Place of birth', namespace: 'org.iso.18013.5.1' },
-            'resident_address': { name: 'Permanent place of residence', namespace: 'org.iso.18013.5.1' },
-            'portrait_capture_date': { name: 'Portrait image timestamp', namespace: 'org.iso.18013.5.1' },
-            'age_in_years': { name: 'Age attestation: How old are you (in years)?', namespace: 'org.iso.18013.5.1' },
-            'age_birth_year': { name: 'Age attestation: In what year were you born?', namespace: 'org.iso.18013.5.1' },
-            'age_over_NN': { name: 'Age attestation: Are you over NN?', namespace: 'org.iso.18013.5.1' },
-            'issuing_jurisdiction': { name: 'Issuing jurisdiction', namespace: 'org.iso.18013.5.1' },
-            'nationality': { name: 'Nationality', namespace: 'org.iso.18013.5.1' },
-            'resident_city': { name: 'Resident city', namespace: 'org.iso.18013.5.1' },
-            'resident_state': { name: 'Resident state', namespace: 'org.iso.18013.5.1' },
-            'resident_postal_code': { name: 'Resident postal code', namespace: 'org.iso.18013.5.1' },
-            'resident_country': { name: 'Resident country', namespace: 'org.iso.18013.5.1' },
-            'biometric_template_xx': { name: 'Biometric template XX', namespace: 'org.iso.18013.5.1' },
-            'family_name_national_character': { name: 'Family name in national characters', namespace: 'org.iso.18013.5.1' },
-            'given_name_national_character': { name: 'Given name in national characters', namespace: 'org.iso.18013.5.1' },
-            'signature_usual_mark': { name: 'Signature / usual mark', namespace: 'org.iso.18013.5.1' },
-            'driving_privileges': { name: 'Driving Privileges', namespace: 'org.iso.18013.5.1' },
-            'un_distinguishing_sign': { name: 'UN Distinguishing Sign', namespace: 'org.iso.18013.5.1' },
-            'organ_donor': { name: 'Organ donor', namespace: 'org.iso.18013.5.1.aamva' },
-            'DHS_compliance': { name: 'Compliance type', namespace: 'org.iso.18013.5.1.aamva' },
-            'given_name_truncation': { name: 'Given name truncation', namespace: 'org.iso.18013.5.1.aamva' },
-            'family_name_truncation': { name: 'Family name truncation', namespace: 'org.iso.18013.5.1.aamva' },
-            'domestic_driving_privileges': { name: 'Domestic categories of vehicles/restrictions/conditions', namespace: 'org.iso.18013.5.1.aamva' },
-            'EDL_credential': { name: 'EDL indicator', namespace: 'org.iso.18013.5.1.aamva' },
-            'veteran': { name: 'Veteran', namespace: 'org.iso.18013.5.1.aamva' },
-            'age_over_18': { name: 'Age is Over 18', namespace: 'org.iso.18013.5.1' }
-        };
+<script>
+    // --- DOM Elements ---
+    const requestBtn = document.getElementById('request-btn');
+    const verifyBtn = document.getElementById('verify-btn');
+    const idTypeCheckboxes = document.querySelectorAll('input[name="idType"]');
+    const enableZkRequestCheckbox = document.getElementById('enable-zk-request');
+    const attributesContainer = document.getElementById('attributes-container');
+    const requestDisplay = document.getElementById('request-display');
+    const requestOutput = document.getElementById('request-output');
+    const verifySection = document.getElementById('verify-section');
+    const walletResponseInput = document.getElementById('wallet-response-input');
+    const resultDisplay = document.getElementById('result-display');
+    const resultOutput = document.getElementById('result-output');
+    const statusMessage = document.getElementById('status-message');
 
-        const idPassAttributes = {
-            'family_name': { name: 'Family Name', namespace: 'org.iso.18013.5.1' },
-            'given_name': { name: 'Given Name', namespace: 'org.iso.18013.5.1' },
-            'birth_date': { name: 'Date of Birth', namespace: 'org.iso.18013.5.1' },
-            'issue_date': { name: 'Date of Issue', namespace: 'org.iso.18013.5.1' },
-            'expiry_date': { name: 'Date of Expiry', namespace: 'org.iso.18013.5.1' },
-            'issuing_country': { name: 'Issuing Country', namespace: 'org.iso.18013.5.1' },
-            'issuing_authority': { name: 'Issuing Authority', namespace: 'org.iso.18013.5.1' },
-            'document_number': { name: 'Document Number', namespace: 'org.iso.18013.5.1' },
-            'portrait': { name: 'Portrait', namespace: 'org.iso.18013.5.1' },
-            'sex': { name: 'Sex', namespace: 'org.iso.18013.5.1' },
-            'age_over_18': { name: 'Age over 18', namespace: 'org.iso.18013.5.1' },
-            'age_over_21': { name: 'Age over 21', namespace: 'org.iso.18013.5.1' },
-            'nationality': { name: 'Nationality', namespace: 'org.iso.18013.5.1' },
-            'original_document_issue_date': { name: 'Issue Date of Underlying Document', namespace: 'org.iso.18013.5.1' }
-        };
+    // --- State Management ---
+    let stateForVerification = null; // Stores keys and nonce from the backend for a session.
 
-        /**
-         * Dynamically renders the list of attribute checkboxes based on ID type selection.
-         */
-        function updateAttributeList() {
-            const isMdlSelected = document.querySelector('input[value="org.iso.18013.5.1.mDL"]').checked;
-            const isIdPassSelected = document.querySelector('input[value="com.google.wallet.idcard.1"]').checked;
-            
-            // Use a Map to combine attributes and automatically handle duplicates.
-            const combinedAttributes = new Map();
-            if (isMdlSelected) {
-                Object.entries(mdlAttributes).forEach(([id, data]) => combinedAttributes.set(id, data));
-            }
-            if (isIdPassSelected) {
-                Object.entries(idPassAttributes).forEach(([id, data]) => combinedAttributes.set(id, data));
-            }
-            
-            attributesContainer.innerHTML = ''; // Clear previous list
-            
-            if(combinedAttributes.size === 0) {
-                attributesContainer.innerHTML = '<p class="text-gray-500">Select an ID type to see available attributes.</p>';
-                return;
-            }
+    // IMPORTANT: Update this URL to point to your running backend server.
+    // For local development with the Python script, this is the default.
+    const serverUrl = 'http://127.0.0.1:5001';
 
-            // Sort attributes alphabetically by display name for a consistent UI.
-            const sortedAttributes = [...combinedAttributes.entries()].sort((a, b) => a[1].name.localeCompare(b[1].name));
+    // --- Attribute Definitions ---
+    // These objects define the available attributes for different credential types.
+    // You can customize these to match the credentials you want to verify.
+    const mdlAttributes = {
+        'family_name': { name: 'Family name', namespace: 'org.iso.18013.5.1' },
+        'given_name': { name: 'Given names', namespace: 'org.iso.18013.5.1' },
+        'birth_date': { name: 'Date of birth', namespace: 'org.iso.18013.5.1' },
+        'issue_date': { name: 'Date of issue', namespace: 'org.iso.18013.5.1' },
+        'expiry_date': { name: 'Date of expiry', namespace: 'org.iso.18013.5.1' },
+        'issuing_country': { name: 'Issuing country', namespace: 'org.iso.18013.5.1' },
+        'issuing_authority': { name: 'Issuing authority', namespace: 'org.iso.18013.5.1' },
+        'document_number': { name: 'Licence number', namespace: 'org.iso.18013.5.1' },
+        'portrait': { name: 'Portrait', namespace: 'org.iso.18013.5.1' },
+        'administrative_number': { name: 'Administrative number', namespace: 'org.iso.18013.5.1' },
+        'sex': { name: 'Sex', namespace: 'org.iso.18013.5.1' },
+        'height': { name: 'Height (cm)', namespace: 'org.iso.18013.5.1' },
+        'weight': { name: 'Weight (kg)', namespace: 'org.iso.18013.5.1' },
+        'eye_colour': { name: 'Eye colour', namespace: 'org.iso.18013.5.1' },
+        'hair_colour': { name: 'Hair colour', namespace: 'org.iso.18013.5.1' },
+        'birth_place': { name: 'Place of birth', namespace: 'org.iso.18013.5.1' },
+        'resident_address': { name: 'Permanent place of residence', namespace: 'org.iso.18013.5.1' },
+        'portrait_capture_date': { name: 'Portrait image timestamp', namespace: 'org.iso.18013.5.1' },
+        'age_in_years': { name: 'Age attestation: How old are you (in years)?', namespace: 'org.iso.18013.5.1' },
+        'age_birth_year': { name: 'Age attestation: In what year were you born?', namespace: 'org.iso.18013.5.1' },
+        'age_over_NN': { name: 'Age attestation: Are you over NN?', namespace: 'org.iso.18013.5.1' },
+        'issuing_jurisdiction': { name: 'Issuing jurisdiction', namespace: 'org.iso.18013.5.1' },
+        'nationality': { name: 'Nationality', namespace: 'org.iso.18013.5.1' },
+        'resident_city': { name: 'Resident city', namespace: 'org.iso.18013.5.1' },
+        'resident_state': { name: 'Resident state', namespace: 'org.iso.18013.5.1' },
+        'resident_postal_code': { name: 'Resident postal code', namespace: 'org.iso.18013.5.1' },
+        'resident_country': { name: 'Resident country', namespace: 'org.iso.18013.5.1' },
+        'biometric_template_xx': { name: 'Biometric template XX', namespace: 'org.iso.18013.5.1' },
+        'family_name_national_character': { name: 'Family name in national characters', namespace: 'org.iso.18013.5.1' },
+        'given_name_national_character': { name: 'Given name in national characters', namespace: 'org.iso.18013.5.1' },
+        'signature_usual_mark': { name: 'Signature / usual mark', namespace: 'org.iso.18013.5.1' },
+        'driving_privileges': { name: 'Driving Privileges', namespace: 'org.iso.18013.5.1' },
+        'un_distinguishing_sign': { name: 'UN Distinguishing Sign', namespace: 'org.iso.18013.5.1' },
+        'organ_donor': { name: 'Organ donor', namespace: 'org.iso.18013.5.1.aamva' },
+        'DHS_compliance': { name: 'Compliance type', namespace: 'org.iso.18013.5.1.aamva' },
+        'given_name_truncation': { name: 'Given name truncation', namespace: 'org.iso.18013.5.1.aamva' },
+        'family_name_truncation': { name: 'Family name truncation', namespace: 'org.iso.18013.5.1.aamva' },
+        'domestic_driving_privileges': { name: 'Domestic categories of vehicles/restrictions/conditions', namespace: 'org.iso.18013.5.1.aamva' },
+        'EDL_credential': { name: 'EDL indicator', namespace: 'org.iso.18013.5.1.aamva' },
+        'veteran': { name: 'Veteran', namespace: 'org.iso.18013.5.1.aamva' },
+        'age_over_18': { name: 'Age is Over 18', namespace: 'org.iso.18013.5.1' }
+    };
 
-            // Create and append a checkbox for each attribute.
-            for (const [id, data] of sortedAttributes) {
-                const label = document.createElement('label');
-                label.className = 'flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer';
-                
-                const input = document.createElement('input');
-                input.type = 'checkbox';
-                input.name = 'attribute';
-                input.value = id;
-                input.dataset.namespace = data.namespace; // Store namespace for the request.
-                input.className = 'h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500';
-                
-                const span = document.createElement('span');
-                span.className = 'ml-3 text-lg text-gray-700';
-                span.textContent = data.name;
+    const idPassAttributes = {
+        'family_name': { name: 'Family Name', namespace: 'org.iso.18013.5.1' },
+        'given_name': { name: 'Given Name', namespace: 'org.iso.18013.5.1' },
+        'birth_date': { name: 'Date of Birth', namespace: 'org.iso.18013.5.1' },
+        'issue_date': { name: 'Date of Issue', namespace: 'org.iso.18013.5.1' },
+        'expiry_date': { name: 'Date of Expiry', namespace: 'org.iso.18013.5.1' },
+        'issuing_country': { name: 'Issuing Country', namespace: 'org.iso.18013.5.1' },
+        'issuing_authority': { name: 'Issuing Authority', namespace: 'org.iso.18013.5.1' },
+        'document_number': { name: 'Document Number', namespace: 'org.iso.18013.5.1' },
+        'portrait': { name: 'Portrait', namespace: 'org.iso.18013.5.1' },
+        'sex': { name: 'Sex', namespace: 'org.iso.18013.5.1' },
+        'age_over_18': { name: 'Age over 18', namespace: 'org.iso.18013.5.1' },
+        'age_over_21': { name: 'Age over 21', namespace: 'org.iso.18013.5.1' },
+        'nationality': { name: 'Nationality', namespace: 'org.iso.18013.5.1' },
+        'original_document_issue_date': { name: 'Issue Date of Underlying Document', namespace: 'org.iso.18013.5.1' }
+    };
 
-                label.appendChild(input);
-                label.appendChild(span);
-                attributesContainer.appendChild(label);
-            }
+                        const avAttributes = {
+                            // Namespace eu.europa.ec.av.1
+                            'age_over_18': { name: 'Age over 18', namespace: 'eu.europa.ec.av.1' },
+                            'age_over_21': { name: 'Age over 21', namespace: 'eu.europa.ec.av.1' },
+                            'age_in_years': { name: 'Age in years', namespace: 'eu.europa.ec.av.1' },
+                            'age_birth_year': { name: 'Age birth year', namespace: 'eu.europa.ec.av.1' }
+                        };
+
+                        const photoIdAttributes = {
+                            // Namespace org.iso.23220.1
+                            'family_name': { name: 'Family Name', namespace: 'org.iso.23220.1' },
+                            'given_name': { name: 'Given Name', namespace: 'org.iso.23220.1' },
+                            'birth_date': { name: 'Birth Date', namespace: 'org.iso.23220.1' },
+                            'portrait_capture_date': { name: 'Portrait Capture Date', namespace: 'org.iso.23220.1' },
+                            'portrait': { name: 'Portrait', namespace: 'org.iso.23220.1' },
+                            'issue_date': { name: 'Issue Date', namespace: 'org.iso.23220.1' },
+                            'expiry_date': { name: 'Expiry Date', namespace: 'org.iso.23220.1' },
+                            'issuing_country': { name: 'Issuing Country', namespace: 'org.iso.23220.1' },
+                            'issuing_authority': { name: 'Issuing Authority', namespace: 'org.iso.23220.1' },
+                            'resident_address': { name: 'Resident Address', namespace: 'org.iso.23220.1' },
+                            'resident_city': { name: 'Resident City', namespace: 'org.iso.23220.1' },
+                            'resident_country': { name: 'Resident Country', namespace: 'org.iso.23220.1' },
+                            'sex': { name: 'Sex', namespace: 'org.iso.23220.1' },
+                            'nationality': { name: 'Nationality', namespace: 'org.iso.23220.1' },
+                            'document_number': { name: 'Document Number', namespace: 'org.iso.23220.1' },
+                            'issuing_subdivision': { name: 'Issuing Subdivision', namespace: 'org.iso.23220.1' },
+
+                            // Namespace org.iso.23220.photoID.1
+                            'person_id': { name: 'Person ID', namespace: 'org.iso.23220.photoID.1' },
+                            'birth_country': { name: 'Birth Country', namespace: 'org.iso.23220.photoID.1' },
+                            'birth_city': { name: 'Birth City', namespace: 'org.iso.23220.photoID.1' },
+                            'resident_street': { name: 'Resident Street', namespace: 'org.iso.23220.photoID.1' },
+                            'resident_house_number': { name: 'Resident House Number', namespace: 'org.iso.23220.photoID.1' },
+                            'travel_document_type': { name: 'Travel Document Type', namespace: 'org.iso.23220.photoID.1' },
+                            'travel_document_number': { name: 'Travel Document Number', namespace: 'org.iso.23220.photoID.1' },
+                            'resident_state': { name: 'Resident State', namespace: 'org.iso.23220.photoID.1' },
+                            'travel_document_mrz': { name: 'Travel Document MRZ', namespace: 'org.iso.23220.photoID.1' }
+                        };
+
+    /**
+     * Dynamically renders the list of attribute checkboxes based on ID type selection.
+     */
+    function updateAttributeList() {
+        const isMdlSelected = document.querySelector('input[value="org.iso.18013.5.1.mDL"]').checked;
+        const isIdPassSelected = document.querySelector('input[value="com.google.wallet.idcard.1"]').checked;
+        const isAvSelected = document.querySelector('input[value="eu.europa.ec.av.1"]').checked;
+        const isPhotoIdSelected = document.querySelector('input[value="org.iso.23220.photoID.1"]').checked;
+
+        // Use a Map to combine attributes and automatically handle duplicates.
+        const combinedAttributes = new Map();
+        if (isMdlSelected) {
+            Object.entries(mdlAttributes).forEach(([id, data]) => combinedAttributes.set(id, data));
+        }
+        if (isIdPassSelected) {
+            Object.entries(idPassAttributes).forEach(([id, data]) => combinedAttributes.set(id, data));
+        }
+        if (isAvSelected) {
+            Object.entries(avAttributes).forEach(([id, data]) => combinedAttributes.set(id, data));
+        }
+        if (isPhotoIdSelected) {
+            Object.entries(photoIdAttributes).forEach(([id, data]) => combinedAttributes.set(id, data));
         }
 
-        // --- Event Listeners ---
-        requestBtn.addEventListener('click', handleRequest);
-        verifyBtn.addEventListener('click', handleManualVerify);
-        idTypeCheckboxes.forEach(checkbox => checkbox.addEventListener('change', updateAttributeList));
-        // Initial population of the attribute list on page load
-        updateAttributeList();
-        /**
-         * Sends a request to the backend server to get a wallet request payload.
-         * @param {object} requestBody - The JSON body for the POST request.
-         */
-        async function sendRequestToServer(requestBody) {
-            console.log("Sending to /request:", requestBody);
-            return fetch(`${serverUrl}/request`, {
+        attributesContainer.innerHTML = ''; // Clear previous list
+
+        if(combinedAttributes.size === 0) {
+            attributesContainer.innerHTML = '<p class="text-gray-500">Select an ID type to see available attributes.</p>';
+            return;
+        }
+
+        // Sort attributes alphabetically by display name for a consistent UI.
+        const sortedAttributes = [...combinedAttributes.entries()].sort((a, b) => a[1].name.localeCompare(b[1].name));
+
+        // Create and append a checkbox for each attribute.
+        for (const [id, data] of sortedAttributes) {
+            const label = document.createElement('label');
+            label.className = 'flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer';
+
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.name = 'attribute';
+            input.value = id;
+            input.dataset.namespace = data.namespace; // Store namespace for the request.
+            input.className = 'h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500';
+
+            const span = document.createElement('span');
+            span.className = 'ml-3 text-lg text-gray-700';
+            span.textContent = data.name;
+
+            label.appendChild(input);
+            label.appendChild(span);
+            attributesContainer.appendChild(label);
+        }
+    }
+
+    // --- Event Listeners ---
+    requestBtn.addEventListener('click', handleRequest);
+    verifyBtn.addEventListener('click', handleManualVerify);
+    idTypeCheckboxes.forEach(checkbox => checkbox.addEventListener('change', updateAttributeList));
+    // Initial population of the attribute list on page load
+    updateAttributeList();
+    /**
+     * Sends a request to the backend server to get a wallet request payload.
+     * @param {object} requestBody - The JSON body for the POST request.
+     */
+    async function sendRequestToServer(requestBody) {
+        console.log("Sending to /request:", requestBody);
+        return fetch(`${serverUrl}/request`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody),
+        });
+    }
+
+    /**
+     * Verifies the credential response received from the wallet.
+     * @param {DigitalCredential} credential - The credential object from the wallet.
+     */
+    async function verifyCredentialResponse(credential) {
+        if (!stateForVerification) {
+            showStatus("Cannot verify. State is missing. Please generate a request first.", "error");
+            return;
+        }
+
+        showStatus("Verifying credential response...", "loading");
+
+        // Determine whether to use the standard or ZK verification endpoint.
+        const isZkRequest = enableZkRequestCheckbox.checked;
+        const endpoint = isZkRequest ? '/zkverify' : '/verify';
+        const fullUrl = `${serverUrl}${endpoint}`;
+
+        console.log(`Sending verification to: ${fullUrl}`);
+
+        // The request body includes the protocol, wallet data, session state, and origin.
+        const requestBody = {
+            protocol: credential.protocol,
+            data: credential.data,
+            state: stateForVerification,
+            origin: window.location.origin
+        };
+
+        try {
+            const response = await fetch(fullUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestBody),
             });
+            const data = await response.json();
+            handleVerificationResult(data);
+        } catch (error) {
+            console.error("Verification POST failed:", error);
+            showStatus(`Verification failed: An error occurred while communicating with the server.`, "error");
+            resultDisplay.classList.add('hidden');
         }
-        
-        /**
-         * Verifies the credential response received from the wallet.
-         * @param {DigitalCredential} credential - The credential object from the wallet.
-         */
-        async function verifyCredentialResponse(credential) {
-            if (!stateForVerification) {
-                showStatus("Cannot verify. State is missing. Please generate a request first.", "error");
-                return;
-            }
+    }
 
-            showStatus("Verifying credential response...", "loading");
-
-            // Determine whether to use the standard or ZK verification endpoint.
-            const isZkRequest = enableZkRequestCheckbox.checked;
-            const endpoint = isZkRequest ? '/zkverify' : '/verify';
-            const fullUrl = `${serverUrl}${endpoint}`;
-
-            console.log(`Sending verification to: ${fullUrl}`);
-
-            // The request body includes the protocol, wallet data, session state, and origin.
-            const requestBody = {
-                protocol: credential.protocol,
-                data: credential.data,
-                state: stateForVerification,
-                origin: window.location.origin
-            };
-
-            try {
-                const response = await fetch(fullUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(requestBody),
-                });
-                const data = await response.json();
-                handleVerificationResult(data);
-            } catch (error) {
-                console.error("Verification POST failed:", error);
-                showStatus(`Verification failed: An error occurred while communicating with the server.`, "error");
-                resultDisplay.classList.add('hidden');
-            }
-        }
-        
-        /**
-         * Uses the WebAuthn API (`navigator.credentials.get`) to request a credential from the wallet.
-         * @param {string} protocol - The protocol for the request (e.g., "openid4vp").
-         * @param {string} data - The request payload/token from our backend.
-         */
-        async function requestCredFromWallet(protocol, data) {
-            try {
-                // This triggers the browser's native wallet selector UI.
-                const credentialResponse = await navigator.credentials.get({
-                    digital: {
-                        requests: [{
-                            protocol: protocol,
-                            data: data
-                        }]
-                    }
-                });
-                
-                // If the response is valid, send it for verification.
-                if (window.DigitalCredential && credentialResponse instanceof DigitalCredential) {
-                    verifyCredentialResponse(credentialResponse);
-                } else {
-                    // Fallback for environments where the API behaves differently.
-                    console.warn("Response is not a DigitalCredential. Showing manual fallback.");
-                    walletResponseInput.value = credentialResponse.data;
-                    verifySection.classList.remove('hidden');
-                    showStatus("Credential received. Please use manual verification.", "info");
+    /**
+     * Uses the WebAuthn API (`navigator.credentials.get`) to request a credential from the wallet.
+     * @param {string} protocol - The protocol for the request (e.g., "openid4vp").
+     * @param {string} data - The request payload/token from our backend.
+     */
+    async function requestCredFromWallet(protocol, data) {
+        try {
+            // This triggers the browser's native wallet selector UI.
+            const credentialResponse = await navigator.credentials.get({
+                digital: {
+                    requests: [{
+                        protocol: protocol,
+                        data: data
+                    }]
                 }
-            } catch (e) {
-                showStatus(`Wallet request cancelled or failed: ${e.message}`, "error");
-                console.error("Error getting credential from wallet:", e);
-            }
-        }
+            });
 
-        /**
-         * Main handler for the "Request from Wallet" button click.
-         */
-        async function handleRequest() {
-            // 1. Get selected ID types.
-			const selectedProtocol = document.getElementById('protocol-select').value;
-            const selectedIdTypes = Array.from(idTypeCheckboxes)
-                                        .filter(checkbox => checkbox.checked)
-                                        .map(checkbox => checkbox.value);
-            if (selectedIdTypes.length === 0) {
-                showStatus("Please select at least one ID type.", "error");
-                return;
-            }
-
-            // 2. Get selected attributes.
-            const selectedAttributes = Array.from(attributesContainer.querySelectorAll('input[name="attribute"]:checked'))
-                .map(checkbox => ({
-                    namespace: checkbox.dataset.namespace,
-                    name: checkbox.value
-                }));
-            if (selectedAttributes.length === 0) {
-                showStatus("Please select at least one attribute.", "error");
-                return;
-            }
-            
-            showStatus("Generating request...", "loading");
-
-            // 3. Prepare the request body for the backend.
-            const requestBody = {
-                protocol: selectedProtocol,
-                doctype: selectedIdTypes,
-                requestZkp: enableZkRequestCheckbox.checked,
-                attributes: selectedAttributes
-            };
-
-            // 4. Send request to backend, then send the response to the wallet.
-            try {
-                const response = await sendRequestToServer(requestBody);
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || `Server responded with ${response.status}`);
-                }
-
-                // Store the state from the backend for the verification step.
-                stateForVerification = data.state;
-                
-                requestOutput.textContent = JSON.stringify(data, null, 2);
-                requestDisplay.classList.remove('hidden');
-                verifySection.classList.add('hidden');
-                resultDisplay.classList.add('hidden');
-
-                // Trigger the wallet request.
-                requestCredFromWallet(data.protocol, data.request);
-                hideStatus();
-            } catch (error) {
-                console.error("Request generation failed:", error);
-                showStatus(`Request generation failed: ${error.message}`, "error");
-                requestDisplay.classList.add('hidden');
-                verifySection.classList.add('hidden');
-            }
-        }
-        
-        /**
-         * Handles the manual verification for the fallback scenario.
-         */
-        async function handleManualVerify() {
-            const selectedProtocol = document.getElementById('protocol-select').value;
-            const walletResponse = walletResponseInput.value;
-            if (!walletResponse) {
-                showStatus("Please paste the response from the wallet.", "error");
-                return;
-            }
-            if (!stateForVerification) {
-                showStatus("Cannot verify. Please generate a request first.", "error");
-                return;
-            }
-            
-            showStatus("Verifying response...", "loading");
-            
-            const isZkRequest = enableZkRequestCheckbox.checked;
-            const endpoint = isZkRequest ? '/zkverify' : '/verify';
-            const fullUrl = `${serverUrl}${endpoint}`;
-
-            // The protocol is assumed to be 'preview' in this manual fallback.
-            // This might need adjustment depending on the wallet's output.
-            const requestBody = {
-                protocol: selectedProtocol, 
-                data: walletResponse,
-                state: stateForVerification,
-                origin: window.location.origin
-            };
-
-            try {
-                const response = await fetch(fullUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(requestBody),
-                });
-                const data = await response.json();
-                handleVerificationResult(data);
-            } catch(error) {
-                console.error("Manual verification failed:", error);
-                showStatus(`Verification failed: An error occurred while communicating with the server.`, "error");
-                resultDisplay.classList.add('hidden');
-            }
-        }
-
-        /**
-         * Helper function to process and display the final verification result.
-         * @param {object} data - The JSON response from the /verify or /zkverify endpoint.
-         */
-        function handleVerificationResult(data) {
-            resultOutput.textContent = JSON.stringify(data, null, 2);
-            resultDisplay.classList.remove('hidden');
-
-            if (data.success) {
-                resultOutput.parentElement.classList.remove('bg-red-100', 'text-red-800');
-                resultOutput.parentElement.classList.add('bg-green-100', 'text-green-800');
-                showStatus(`Verification successful!`, "success");
+            // If the response is valid, send it for verification.
+            if (window.DigitalCredential && credentialResponse instanceof DigitalCredential) {
+                verifyCredentialResponse(credentialResponse);
             } else {
-                 resultOutput.parentElement.classList.remove('bg-green-100', 'text-green-800');
-                 resultOutput.parentElement.classList.add('bg-red-100', 'text-red-800');
-                 showStatus(`Verification failed: ${data.error || 'Unknown error'}`, 'error');
+                // Fallback for environments where the API behaves differently.
+                console.warn("Response is not a DigitalCredential. Showing manual fallback.");
+                walletResponseInput.value = credentialResponse.data;
+                verifySection.classList.remove('hidden');
+                showStatus("Credential received. Please use manual verification.", "info");
             }
+        } catch (e) {
+            showStatus(`Wallet request cancelled or failed: ${e.message}`, "error");
+            console.error("Error getting credential from wallet:", e);
         }
-        
-        // --- UI Helper Functions ---
-        /**
-         * Displays a status message to the user.
-         * @param {string} message - The message to display.
-         * @param {string} type - 'loading', 'error', 'success', or 'info'.
-         */
-        function showStatus(message, type = 'loading') {
-            statusMessage.textContent = message;
-            statusMessage.className = 'p-4 rounded-lg mt-4'; // Reset classes
+    }
 
-            if (type === 'loading') {
-                statusMessage.classList.add('bg-blue-100', 'text-blue-800');
-                requestBtn.disabled = true;
-                verifyBtn.disabled = true;
-            } else if (type === 'error') {
-                statusMessage.classList.add('bg-red-100', 'text-red-800');
-                requestBtn.disabled = false;
-                verifyBtn.disabled = false;
-            } else if (type === 'success'){ 
-                statusMessage.classList.add('bg-green-100', 'text-green-800');
-                requestBtn.disabled = false;
-                verifyBtn.disabled = false;
-            } else if (type === 'info') {
-                 statusMessage.classList.add('bg-yellow-100', 'text-yellow-800');
-            
-
-                 requestBtn.disabled = false;
-                 verifyBtn.disabled = false;
-            }
-            statusMessage.classList.remove('hidden');
+    /**
+     * Main handler for the "Request from Wallet" button click.
+     */
+    async function handleRequest() {
+        // 1. Get selected ID types.
+        const selectedProtocol = document.getElementById('protocol-select').value;
+        const selectedIdTypes = Array.from(idTypeCheckboxes)
+                                    .filter(checkbox => checkbox.checked)
+                                    .map(checkbox => checkbox.value);
+        if (selectedIdTypes.length === 0) {
+            showStatus("Please select at least one ID type.", "error");
+            return;
         }
 
-        /** Hides the status message and re-enables buttons. */
-        function hideStatus() {
-            statusMessage.classList.add('hidden');
+        // 2. Get selected attributes.
+        const selectedAttributes = Array.from(attributesContainer.querySelectorAll('input[name="attribute"]:checked'))
+            .map(checkbox => ({
+                namespace: checkbox.dataset.namespace,
+                name: checkbox.value
+            }));
+        if (selectedAttributes.length === 0) {
+            showStatus("Please select at least one attribute.", "error");
+            return;
+        }
+
+        showStatus("Generating request...", "loading");
+
+        // 3. Prepare the request body for the backend.
+        const requestBody = {
+            protocol: selectedProtocol,
+            doctype: selectedIdTypes,
+            requestZkp: enableZkRequestCheckbox.checked,
+            attributes: selectedAttributes
+        };
+
+        // 4. Send request to backend, then send the response to the wallet.
+        try {
+            const response = await sendRequestToServer(requestBody);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || `Server responded with ${response.status}`);
+            }
+
+            // Store the state from the backend for the verification step.
+            stateForVerification = data.state;
+
+            requestOutput.textContent = JSON.stringify(data, null, 2);
+            requestDisplay.classList.remove('hidden');
+            verifySection.classList.add('hidden');
+            resultDisplay.classList.add('hidden');
+
+            // Trigger the wallet request.
+            requestCredFromWallet(data.protocol, data.request);
+            hideStatus();
+        } catch (error) {
+            console.error("Request generation failed:", error);
+            showStatus(`Request generation failed: ${error.message}`, "error");
+            requestDisplay.classList.add('hidden');
+            verifySection.classList.add('hidden');
+        }
+    }
+
+    /**
+     * Handles the manual verification for the fallback scenario.
+     */
+    async function handleManualVerify() {
+        const selectedProtocol = document.getElementById('protocol-select').value;
+        const walletResponse = walletResponseInput.value;
+        if (!walletResponse) {
+            showStatus("Please paste the response from the wallet.", "error");
+            return;
+        }
+        if (!stateForVerification) {
+            showStatus("Cannot verify. Please generate a request first.", "error");
+            return;
+        }
+
+        showStatus("Verifying response...", "loading");
+
+        const isZkRequest = enableZkRequestCheckbox.checked;
+        const endpoint = isZkRequest ? '/zkverify' : '/verify';
+        const fullUrl = `${serverUrl}${endpoint}`;
+
+        // The protocol is assumed to be 'preview' in this manual fallback.
+        // This might need adjustment depending on the wallet's output.
+        const requestBody = {
+            protocol: selectedProtocol,
+            data: walletResponse,
+            state: stateForVerification,
+            origin: window.location.origin
+        };
+
+        try {
+            const response = await fetch(fullUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody),
+            });
+            const data = await response.json();
+            handleVerificationResult(data);
+        } catch(error) {
+            console.error("Manual verification failed:", error);
+            showStatus(`Verification failed: An error occurred while communicating with the server.`, "error");
+            resultDisplay.classList.add('hidden');
+        }
+    }
+
+    /**
+     * Helper function to process and display the final verification result.
+     * @param {object} data - The JSON response from the /verify or /zkverify endpoint.
+     */
+    function handleVerificationResult(data) {
+        resultOutput.textContent = JSON.stringify(data, null, 2);
+        resultDisplay.classList.remove('hidden');
+
+        if (data.success) {
+            resultOutput.parentElement.classList.remove('bg-red-100', 'text-red-800');
+            resultOutput.parentElement.classList.add('bg-green-100', 'text-green-800');
+            showStatus(`Verification successful!`, "success");
+        } else {
+             resultOutput.parentElement.classList.remove('bg-green-100', 'text-green-800');
+             resultOutput.parentElement.classList.add('bg-red-100', 'text-red-800');
+             showStatus(`Verification failed: ${data.error || 'Unknown error'}`, 'error');
+        }
+    }
+
+    // --- UI Helper Functions ---
+    /**
+     * Displays a status message to the user.
+     * @param {string} message - The message to display.
+     * @param {string} type - 'loading', 'error', 'success', or 'info'.
+     */
+    function showStatus(message, type = 'loading') {
+        statusMessage.textContent = message;
+        statusMessage.className = 'p-4 rounded-lg mt-4'; // Reset classes
+
+        if (type === 'loading') {
+            statusMessage.classList.add('bg-blue-100', 'text-blue-800');
+            requestBtn.disabled = true;
+            verifyBtn.disabled = true;
+        } else if (type === 'error') {
+            statusMessage.classList.add('bg-red-100', 'text-red-800');
             requestBtn.disabled = false;
             verifyBtn.disabled = false;
-        }
+        } else if (type === 'success'){
+            statusMessage.classList.add('bg-green-100', 'text-green-800');
+            requestBtn.disabled = false;
+            verifyBtn.disabled = false;
+        } else if (type === 'info') {
+             statusMessage.classList.add('bg-yellow-100', 'text-yellow-800');
 
-    </script>
+
+             requestBtn.disabled = false;
+             verifyBtn.disabled = false;
+        }
+        statusMessage.classList.remove('hidden');
+    }
+
+    /** Hides the status message and re-enables buttons. */
+    function hideStatus() {
+        statusMessage.classList.add('hidden');
+        requestBtn.disabled = false;
+        verifyBtn.disabled = false;
+    }
+
+</script>
 </body>
 </html>

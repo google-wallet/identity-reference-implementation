@@ -81,4 +81,43 @@ object AttributeDataSource {
         "Nationality" to Attribute(id = "nationality", name = "Nationality", namespace = "org.iso.18013.5.1"),
         "Issue Date of Underlying Document" to Attribute(id = "original_document_issue_date", name = "Issue Date of Underlying Document", namespace = "org.iso.18013.5.1")
     )
+
+    val avAttributes = mapOf(
+        // Namespace eu.europa.ec.av.1
+        "Age over 18" to Attribute(id = "age_over_18", name = "Age over 18", namespace = "eu.europa.ec.av.1"),
+        "Age over 21" to Attribute(id = "age_over_21", name = "Age over 21", namespace = "eu.europa.ec.av.1"),
+        "Age in years" to Attribute(id = "age_in_years", name = "Age in years", namespace = "eu.europa.ec.av.1"),
+        "Age birth year" to Attribute(id = "age_birth_year", name = "Age birth year", namespace = "eu.europa.ec.av.1")
+    )
+
+    val photoIdAttributes = mapOf(
+        // Namespace org.iso.23220.1
+        "Family Name" to Attribute(id = "family_name", name = "Family Name", namespace = "org.iso.23220.1"),
+        "Given Name" to Attribute(id = "given_name", name = "Given Name", namespace = "org.iso.23220.1"),
+        "Birth Date" to Attribute(id = "birth_date", name = "Birth Date", namespace = "org.iso.23220.1"),
+        "Portrait Capture Date" to Attribute(id = "portrait_capture_date", name = "Portrait Capture Date", namespace = "org.iso.23220.1"),
+        "Portrait" to Attribute(id = "portrait", name = "Portrait", namespace = "org.iso.23220.1"),
+        "Issue Date" to Attribute(id = "issue_date", name = "Issue Date", namespace = "org.iso.23220.1"),
+        "Expiry Date" to Attribute(id = "expiry_date", name = "Expiry Date", namespace = "org.iso.23220.1"),
+        "Issuing Country" to Attribute(id = "issuing_country", name = "Issuing Country", namespace = "org.iso.23220.1"),
+        "Issuing Authority" to Attribute(id = "issuing_authority", name = "Issuing Authority", namespace = "org.iso.23220.1"),
+        "Resident Address" to Attribute(id = "resident_address", name = "Resident Address", namespace = "org.iso.23220.1"),
+        "Resident City" to Attribute(id = "resident_city", name = "Resident City", namespace = "org.iso.23220.1"),
+        "Resident Country" to Attribute(id = "resident_country", name = "Resident Country", namespace = "org.iso.23220.1"),
+        "Sex" to Attribute(id = "sex", name = "Sex", namespace = "org.iso.23220.1"),
+        "Nationality" to Attribute(id = "nationality", name = "Nationality", namespace = "org.iso.23220.1"),
+        "Document Number" to Attribute(id = "document_number", name = "Document Number", namespace = "org.iso.23220.1"),
+        "Issuing Subdivision" to Attribute(id = "issuing_subdivision", name = "Issuing Subdivision", namespace = "org.iso.23220.1"),
+
+        // Namespace org.iso.23220.photoID.1
+        "Person ID" to Attribute(id = "person_id", name = "Person ID", namespace = "org.iso.23220.photoID.1"),
+        "Birth Country" to Attribute(id = "birth_country", name = "Birth Country", namespace = "org.iso.23220.photoID.1"),
+        "Birth City" to Attribute(id = "birth_city", name = "Birth City", namespace = "org.iso.23220.photoID.1"),
+        "Resident Street" to Attribute(id = "resident_street", name = "Resident Street", namespace = "org.iso.23220.photoID.1"),
+        "Resident House Number" to Attribute(id = "resident_house_number", name = "Resident House Number", namespace = "org.iso.23220.photoID.1"),
+        "Travel Document Type" to Attribute(id = "travel_document_type", name = "Travel Document Type", namespace = "org.iso.23220.photoID.1"),
+        "Travel Document Number" to Attribute(id = "travel_document_number", name = "Travel Document Number", namespace = "org.iso.23220.photoID.1"),
+        "Resident State" to Attribute(id = "resident_state", name = "Resident State", namespace = "org.iso.23220.photoID.1"),
+        "Travel Document MRZ" to Attribute(id = "travel_document_mrz", name = "Travel Document MRZ", namespace = "org.iso.23220.photoID.1")
+    )
 }
