@@ -730,7 +730,7 @@ def handle_request_initiation():
         requested_attributes = request_data.get("attributes", [])
         
         is_zkp_request = False
-        if "requestZkp" in request_data and request_data["requestZkp"] == "True":
+        if request_data.get("requestZkp") is True:
             is_zkp_request = True
 
         # --- Input Validation ---
