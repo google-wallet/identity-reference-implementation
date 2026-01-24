@@ -209,7 +209,7 @@ def construct_openid4vp_request(doctypes: list[str], requested_fields: list[dict
     # algorithm for signing and authentication in this context.
     mdoc_crypto_capabilities = {
         "mso_mdoc":{
-            "isserauth_alg_values":[-7],
+            "issuerauth_alg_values":[-7],
             "deviceauth_alg_values":[-7]
         }
     }
