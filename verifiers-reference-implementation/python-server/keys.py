@@ -14,12 +14,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 '''
 
-PRIVATE_KEY = """-----BEGIN PRIVATE KEY-----
-<Your private key / Should get it directly from your
-Key Management service>
------END PRIVATE KEY-----"""
+# --- Purpose of this file ---
+# This file contains the private key and certificate used for SIGNING requests
+# when using the 'openid4vp-v1-signed' protocol.
+# They are NOT used for verifying the response.
+#
+# --- Production Security Warning ---
+# DO NOT use these hardcoded self-signed keys in production!
+# In production, you should:
+# 1. Use a real certificate issued by a trusted authority.
+# 2. Store the private key securely in a Key Management Service (KMS) or hardware security module (HSM).
+# 3. Do not commit private keys to source control.
+
+PRIVATE_KEY = """-----BEGIN EC PARAMETERS-----
+BggqhkjOPQMBBw==
+-----END EC PARAMETERS-----
+-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIAc1jY4u2abdGT73xOAFbos47jzbFgGqQBUXtQeOfxZroAoGCCqGSM49
+AwEHoUQDQgAENZnak7+/ZBCEFbIh5/x0swiZuEEEoVVeykJ/SeV3z3Wiph/f8oMh
+HBUAt6kS+k9SOwGfc7fKrEWJLgAeMxI97A==
+-----END EC PRIVATE KEY-----"""
 
 CERTIFICATE = """-----BEGIN CERTIFICATE-----
-<Your Pulic cert / Can be added here, can come from
-your Key management Service.>
+MIIBGDCBvgIJAOvRMvbc+21VMAoGCCqGSM49BAMCMBQxEjAQBgNVBAMMCWxvY2Fs
+aG9zdDAeFw0yNjA0MjgxNDA1MzZaFw0yNzA0MjgxNDA1MzZaMBQxEjAQBgNVBAMM
+CWxvY2FsaG9zdDBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABDWZ2pO/v2QQhBWy
+Ief8dLMImbhBBKFVXspCf0nld891oqYf3/KDIRwVALepEvpPUjsBn3O3yqxFiS4A
+HjMSPewwCgYIKoZIzj0EAwIDSQAwRgIhAIQv1PzR9RBfPL8YyQztI7C3uCinjKK6
+LUTh/UVk5JETAiEAsg0rA+pMpm9HU4uZpR67lbVgHGbuo/rUKVpOKF7Dld4=
 -----END CERTIFICATE-----"""

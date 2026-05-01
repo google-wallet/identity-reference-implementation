@@ -133,6 +133,16 @@ limitations under the License. -->
                 <pre><code id="result-output"></code></pre>
             </div>
         </div>
+        <div id="troubleshooting-hints" class="hidden mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <h3 class="text-lg font-semibold text-yellow-800 mb-2">Troubleshooting Hints</h3>
+            <ul class="list-disc list-inside text-yellow-700 text-sm space-y-1">
+                <li>If verification failed, ensure you have loaded valid <b>Issuer IACA root certificates</b> in the backend.
+                </li>
+                <li>If ZK verification failed, ensure you have configured a valid <b>ZK Verifier URL</b> in
+                    <code>config.py</code>.
+                </li>
+            </ul>
+        </div>
     </main>
 </div>
 
@@ -375,6 +385,7 @@ limitations under the License. -->
             console.error("Verification POST failed:", error);
             showStatus(`Verification failed: An error occurred while communicating with the server.`, "error");
             resultDisplay.classList.add('hidden');
+            document.getElementById('troubleshooting-hints').classList.remove('hidden');
         }
     }
 
@@ -389,7 +400,7 @@ limitations under the License. -->
             const credentialResponse = await navigator.credentials.get({
                 digital: {
                     requests: [{
-                        protocol: protocol,
+                        protocol: "openid4vp",
                         data: data
                     }]
                 }
@@ -408,6 +419,7 @@ limitations under the License. -->
         } catch (e) {
             showStatus(`Wallet request cancelled or failed: ${e.message}`, "error");
             console.error("Error getting credential from wallet:", e);
+            document.getElementById('troubleshooting-hints').classList.remove('hidden');
         }
     }
 
@@ -450,6 +462,7 @@ limitations under the License. -->
         try {
             const response = await sendRequestToServer(requestBody);
             const data = await response.json();
+            console.log("Generated Request Payload:", data);
 
             if (!response.ok) {
                 throw new Error(data.error || `Server responded with ${response.status}`);
@@ -516,6 +529,7 @@ limitations under the License. -->
             console.error("Manual verification failed:", error);
             showStatus(`Verification failed: An error occurred while communicating with the server.`, "error");
             resultDisplay.classList.add('hidden');
+            document.getElementById('troubleshooting-hints').classList.remove('hidden');
         }
     }
 
@@ -527,14 +541,18 @@ limitations under the License. -->
         resultOutput.textContent = JSON.stringify(data, null, 2);
         resultDisplay.classList.remove('hidden');
 
+        const hintsBox = document.getElementById('troubleshooting-hints');
+
         if (data.success) {
             resultOutput.parentElement.classList.remove('bg-red-100', 'text-red-800');
             resultOutput.parentElement.classList.add('bg-green-100', 'text-green-800');
             showStatus(`Verification successful!`, "success");
+            hintsBox.classList.add('hidden');
         } else {
              resultOutput.parentElement.classList.remove('bg-green-100', 'text-green-800');
              resultOutput.parentElement.classList.add('bg-red-100', 'text-red-800');
              showStatus(`Verification failed: ${data.error || 'Unknown error'}`, 'error');
+            hintsBox.classList.remove('hidden');
         }
     }
 

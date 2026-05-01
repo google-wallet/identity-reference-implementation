@@ -148,15 +148,17 @@ def construct_openid4vp_request(doctypes: list[str], requested_fields: list[dict
     claims_list = []
     for field_data in requested_fields:
         claim = {
-            "path": [field_data["namespace"], field_data["name"]], # Path to the claim within the mdoc
-            "intent_to_retain": False # set this to true if you are saving the value of the field
+            "path": [field_data["namespace"], field_data["name"]]
         }
         claims_list.append(claim)
     # Create a credential request for each doctype
     for i, doctype in enumerate(doctypes):
         # Generate a unique ID for each credential request for traceability
         # e.g., "mdl-request" or "idcard-request"
-        request_id = f"{doctype.split('.')[-1].lower()}-request"
+        if doctype == "eu.europa.ec.av.1":
+            request_id = "age_credential"
+        else:
+            request_id = f"{doctype.split('.')[-1].lower()}-request"
         meta = {"doctype_value": doctype}
         format_type = "mso_mdoc"
         
@@ -165,7 +167,6 @@ def construct_openid4vp_request(doctypes: list[str], requested_fields: list[dict
             if error:
                 return error  # Propagate error
             meta["zk_system_type"] = zk_system_type
-            meta["verifier_message"] = "challenge"
             format_type = "mso_mdoc_zk"
 
         credential_request = {
@@ -185,12 +186,7 @@ def construct_openid4vp_request(doctypes: list[str], requested_fields: list[dict
 
     # Define the credential query using DCQL (Digital Credential Query Language - conceptual)
     dcql_query = {
-        "credentials": credentials_list,
-        "credential_sets" : [
-            {
-                "options": credential_set_options
-            }
-        ]
+        "credentials": credentials_list
     }
 
     
@@ -218,10 +214,9 @@ def construct_openid4vp_request(doctypes: list[str], requested_fields: list[dict
     # Construct the main OpenID4VP request payload
     request_payload = {
         "response_type": "vp_token",   # Requesting a Verifiable Presentation Token
-        "response_mode": "dc_api.jwt", # Response delivered via DeviceCheck API as JWT,
-        "nonce": nonce_base64,         # Nonce (must match state) - note base64 without padding
-        "dcql_query": dcql_query,      # The credential query
-        "client_metadata": client_metadata # How the client wants the response encrypted
+        "response_mode": "dc_api",     # Response delivered via DeviceCheck API
+        "nonce": "test-nonce",         # Hardcoded for testing to match example
+        "dcql_query": dcql_query       # The credential query
     }
     if is_signed_request:
         # --- Request Signing (JAR / OpenID4VP) ---
@@ -301,6 +296,27 @@ def fetch_and_process_specs(num_attributes):
                - A list of specs (list) if successful, otherwise None.
                - A dictionary containing error details (dict) if an error occurred, otherwise None.
     """
+    if config.SPECS_URL.startswith("<path_to_ZKverifier>"):
+        print("Using mock ZK specs for testing.")
+        return [
+            {
+                "system": "longfellow-libzk-v1",
+                "circuit_hash": "f88a39e561ec0be02bb3dfe38fb609ad154e98decbbe632887d850fc612fea6f",
+                "num_attributes": num_attributes,
+                "version": 5,
+                "block_enc_hash": 4096,
+                "block_enc_sig": 2945,
+            },
+            {
+                "system": "longfellow-libzk-v1",
+                "circuit_hash": "137e5a75ce72735a37c8a72da1a8a0a5df8d13365c2ae3d2c2bd6a0e7197c7c6",
+                "num_attributes": num_attributes,
+                "version": 6,
+                "block_enc_hash": 4096,
+                "block_enc_sig": 2945,
+            }
+        ], None
+
     try:
         # Make a GET request to the external specs endpoint
         # NOTE: 'requests' library needs to be imported for this to work.
@@ -536,28 +552,30 @@ def process_openid4vp_response(encrypted_jwe_string: str, request_state: dict, o
         if origin.startswith("https://") or origin.startswith("http://"): # Web Origin
             if "sign_request_client_id" in request_state:
                 client_id = request_state["sign_request_client_id"]
+                origin_info = client_id  # Use client_id as origin_info for signed requests
             else:
                 client_id = f"web-origin:{origin}"
-            origin_info = origin
+                origin_info = origin
             session_transcript_list = generate_openid4vp_session_transcript(
                 client_id, nonce_base64_unpadded, origin_info, encryption_public_jwk_thumbprint
             )
         else: # Assume Android Origin
             if "sign_request_client_id" in request_state:
                 client_id = request_state["sign_request_client_id"]
+                origin_info = client_id  # Use client_id as origin_info for signed requests
             else:
                 client_id = f"android-origin:{config.APP_PACKAGE_NAME}"
-            # Calculate the base64 encoded SHA256 hash of the app signing cert
-            try:
-                app_signature_hash_bytes = bytes.fromhex(config.ANDROID_APP_SIGNATURE_HASH)
-                app_signature_hash_base64 = base64.b64encode(app_signature_hash_bytes).decode("utf-8").rstrip("=")
-                origin_info = f"android:apk-key-hash:{app_signature_hash_base64}"
-                session_transcript_list = generate_openid4vp_session_transcript(
-                    client_id, nonce_base64_unpadded, origin_info, encryption_public_jwk_thumbprint
-                )
-            except ValueError as e:
-                print(f"Error processing Android signature hash: {e}. Ensure config.ANDROID_APP_SIGNATURE_HASH is correct hex.")
-                return None
+                # Calculate the base64 encoded SHA256 hash of the app signing cert
+                try:
+                    app_signature_hash_bytes = bytes.fromhex(config.ANDROID_APP_SIGNATURE_HASH)
+                    app_signature_hash_base64 = base64.b64encode(app_signature_hash_bytes).decode("utf-8").rstrip("=")
+                    origin_info = f"android:apk-key-hash:{app_signature_hash_base64}"
+                except ValueError as e:
+                    print(f"Error processing Android signature hash: {e}. Ensure config.ANDROID_APP_SIGNATURE_HASH is correct hex.")
+                    return None
+            session_transcript_list = generate_openid4vp_session_transcript(
+                client_id, nonce_base64_unpadded, origin_info, encryption_public_jwk_thumbprint
+            )
 
         # print(f"Using Session Transcript (List) for Verification: {session_transcript_list}") # Debugging
 
@@ -796,6 +814,7 @@ def handle_request_initiation():
         doctypes = request_data.get("doctype") # Expect a list of strings
         # Use 'attributes' for consistency, default to empty list if missing
         requested_attributes = request_data.get("attributes", [])
+        origin = request_data.get("origin", "")
         
         is_zkp_request = False
         if "requestZkp" in request_data and request_data["requestZkp"] is True:

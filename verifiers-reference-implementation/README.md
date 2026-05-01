@@ -108,6 +108,23 @@ Before running the server, you need to configure a few important variables in th
     ```
 ***
 
+## Testing & Mocking Notes
+
+To facilitate testing without a full production setup, the following mocks and defaults are in place in the Python server:
+
+### 1. Zero-Knowledge Proofs (ZKP)
+*   **Request Generation:** The server automatically mocks the ZK specifications response if `SPECS_URL` in `config.py` is left as the default placeholder. This allows you to test generating ZK requests from the UI without a running spec service.
+*   **Verification:** The `/zkverify` endpoint still attempts to contact the `ZK_VERIFIER_URL`. You will need to provide a valid URL in `config.py` for verification to succeed.
+
+### 2. Signed Requests
+*   The project includes a generated self-signed EC private key and certificate in `keys.py` for testing the `openid4vp-v1-signed` protocol. 
+*   **Warning:** For production, you must replace these with a real certificate and store the private key securely in a Key Management Service (KMS).
+
+### 3. Hardcoded Nonce
+*   The `nonce` is currently hardcoded to `"test-nonce"` in `construct_openid4vp_request` to match testing environments. For production, this should be reverted to a random cryptographically secure string.
+
+***
+
 ### Running the Server
 
 You can run the application using either the Flask development server or a production-ready WSGI server like Gunicorn.
@@ -153,7 +170,7 @@ The server exposes the following API endpoints:
     * **Request Body** (JSON):
         ```json
         {
-            "protocol": "openid4vp",
+            "protocol": "openid4vp-v1-unsigned",
             "doctype": "string",
             "requestZkp": boolean,
             "attributes": [
@@ -168,7 +185,7 @@ The server exposes the following API endpoints:
     * **Request Body** (JSON):
         ```json
         {
-            "protocol": "openid4vp",
+            "protocol": "openid4vp-v1-unsigned",
             "data": "...",
             "state": { ... },
             "origin": "string"
