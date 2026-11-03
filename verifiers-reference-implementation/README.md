@@ -113,14 +113,14 @@ Before running the server, you need to configure a few important variables in th
 You can run the application using either the Flask development server or a production-ready WSGI server like Gunicorn.
 
 #### Running in Development Mode
-For local development and testing, you can use the built-in Flask server:
+For local development and testing on your machine, you can use the built-in Flask server (bound to localhost with debug mode disabled):
 ```bash
 python main.py
 ```
-By default, the server will be available at `http://0.0.0.0:5001`. You can access the web interface by navigating to this address in your web browser.
+By default, the server will be available at `http://127.0.0.1:5001`. You can access the web interface by navigating to this address in your web browser.
 
 #### Running in Production Mode (with Gunicorn)
-The `app.yaml` file is configured to use **Gunicorn**. You can also use it to run the server locally, which more closely simulates a production environment.
+Production deployments must use a production WSGI server (such as **Gunicorn** or uWSGI) behind TLS and must never enable Flask's debug mode (`debug=True`), as doing so exposes the Werkzeug interactive debugger. The `app.yaml` file is configured to use **Gunicorn**. You can also use it to run the server locally, which more closely simulates a production environment:
 ```bash
 gunicorn -b :5001 main:app
 ```

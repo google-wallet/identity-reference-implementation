@@ -1021,11 +1021,11 @@ def handle_get_requests():
 # --- Main Execution ---
 if __name__ == '__main__':
     # Run Flask's development server
-    # - debug=True enables auto-reloading and detailed error pages (DO NOT USE IN PRODUCTION)
-    # - host='0.0.0.0' makes the server accessible from other devices on the network
+    # - debug=False ensures the Werkzeug interactive debugger (/console) is not exposed
+    # - host='127.0.0.1' restricts the development server to localhost by default
     # - port=5001 changes the default port from 5000
-    # For production, use a proper WSGI server like Gunicorn or uWSGI behind a reverse proxy (Nginx, Apache).
-    print("Starting Flask development server...")
-    print("WARNING: Debug mode is ON. Do not use in production.")
+    # For production, use a proper WSGI server like Gunicorn or uWSGI behind TLS / a reverse proxy (Nginx, Apache),
+    # and never enable Flask debug mode.
+    print("Starting Flask development server on http://127.0.0.1:5001...")
     print("WARNING: developement code only, Don't use state array(list) in production")
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    app.run(debug=False, host='127.0.0.1', port=5001)
